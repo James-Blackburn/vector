@@ -34,7 +34,7 @@ public:
 
 template <typename T>
 vector<T>::vector() :
-    dynamicArray(nullptr),vSize(0),vCapacity(1),vShift(0){
+    dynamicArray(nullptr),vSize(0),vCapacity(0),vShift(0){
 }
 
 template <typename T>
