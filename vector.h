@@ -13,8 +13,10 @@ private:
     size_type vCapacity;
     size_type vShift;
 public:
-    void push_back(const T&);
-    void push_front(const T&);
+    void push_back(T&);
+    void push_front(T&);
+    void push_back(T&&);
+    void push_front(T&&);
     void pop_back();
     void reserve(int);
     void resize(size_type);
@@ -26,7 +28,7 @@ public:
     inline T& front();
     inline size_type size() const;
     inline size_type capacity() const;
-    inline T& operator[](size_type pos);
+    inline T& operator[](size_type);
     vector();
     vector(std::initializer_list<T>);
     ~vector();
@@ -100,9 +102,10 @@ inline bool vector<T>::empty() const{
 }
 
 template <typename T>
-void vector<T>::push_back(const T& data){
+void vector<T>::push_back(T& data){
     ++vSize;
     if (vCapacity <= vSize){
+        if (!vCapacity) vCapacity=2;
         reserve(vCapacity);
     }
     dynamicArray[vSize-1] = data;
@@ -110,10 +113,36 @@ void vector<T>::push_back(const T& data){
 
 
 template <typename T>
-void vector<T>::push_front(const T& data){
+void vector<T>::push_front(T& data){
     ++vSize;
     vShift = 1;
     if (vCapacity <= vSize){
+        if (!vCapacity) vCapacity=2;
+        reserve(vCapacity);
+    } else{
+        reserve(0);
+    }
+    dynamicArray[0] = data;
+    vShift = 0;
+}
+
+template <typename T>
+void vector<T>::push_back(T&& data){
+    ++vSize;
+    if (vCapacity <= vSize){
+        if (!vCapacity) vCapacity=2;
+        reserve(vCapacity);
+    }
+    dynamicArray[vSize-1] = data;
+}
+
+
+template <typename T>
+void vector<T>::push_front(T&& data){
+    ++vSize;
+    vShift = 1;
+    if (vCapacity <= vSize){
+        if (!vCapacity) vCapacity=2;
         reserve(vCapacity);
     } else{
         reserve(0);
